@@ -69,6 +69,17 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent1, 0);
         builder.setContentIntent(pendingIntent);
 
+        Intent intent2 = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + number));
+
+
+
+
+
+
+        PendingIntent pendingIntent1 = PendingIntent.getActivity(context, 0, intent2, 0);
+        builder.setContentIntent(pendingIntent);
+
+
         strVibrate = Integer.parseInt(Pref.getValue(context, "vibrator", "1"));
 
         if (strVibrate == 0) {
@@ -104,7 +115,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         builder.setAutoCancel(true);
         builder.setCategory(Notification.CATEGORY_CALL);
         builder.addAction(R.drawable.ic_phone_black_24dp, "Call", pendingIntent);
-        builder.addAction(R.drawable.ic_close_white, "Cancel", null);
+        builder.addAction(R.drawable.ic_sms_black_24dp, "SMS", pendingIntent1);
         if (!TextUtils.isEmpty(Pref.getValue(context, "Ringtoneset", null))) {
             builder.setSound(Uri.parse(Pref.getValue(context, "Ringtoneset", null)));
         } else {

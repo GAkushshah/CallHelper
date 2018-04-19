@@ -15,6 +15,7 @@ import android.widget.Toast
 
 import com.greenapex.callhelper.Adpter.adpterNoteReminder
 import com.greenapex.callhelper.Fragment.Reminder
+import com.greenapex.callhelper.MainActivity
 import com.greenapex.callhelper.Model.contactNote
 import com.greenapex.callhelper.R
 import com.greenapex.callhelper.Util.CommonUtils.context
@@ -86,6 +87,15 @@ class PopupActivity : Activity() {
         btnPopupClose.setOnClickListener(object : OnOneOffClickListener() {
             override fun onSingleClick(v: View) {
                 finish()
+            }
+        })
+
+        btnPopupLaunch.setOnClickListener(object :OnOneOffClickListener(){
+            override fun onSingleClick(v: View?) {
+                val intent = Intent(this@PopupActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+//                Toast.makeText(this@PopupActivity, "Hi there! This is a Toast.", Toast.LENGTH_SHORT).show()
             }
         })
 

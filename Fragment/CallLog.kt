@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 
 import com.greenapex.callhelper.Adpter.AdpterLog
 import com.greenapex.callhelper.Model.conctactPojo
@@ -36,14 +37,14 @@ class CallLog : Fragment() {
     internal var managedCursor: Cursor? = null
     internal lateinit var callLogItem: conctactPojo
     internal var mItems: ArrayList<conctactPojo>? = null
+    internal lateinit var log_recycler: RecyclerView
 
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater!!.inflate(R.layout.fragment_call_log, container, false)
-    //    log_recycler = view.findViewById<View>(R.id.log_recycler) as log_recycler
-
+       log_recycler = view.findViewById<View>(R.id.log_recycler) as RecyclerView
 
         if (ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
@@ -81,6 +82,8 @@ class CallLog : Fragment() {
 
         override fun onPostExecute(s: String?) {
             super.onPostExecute(s)
+
+
             log_recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             mAdapter = AdpterLog(context, mItems)
             log_recycler.adapter = mAdapter
