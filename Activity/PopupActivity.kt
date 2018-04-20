@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -24,7 +25,7 @@ import com.greenapex.callhelper.Util.Pref
 import com.greenapex.callhelper.dbCallHelper.MyDBHandler
 import kotlinx.android.synthetic.main.activity_popup.*
 
-class PopupActivity : Activity() {
+class PopupActivity : SwipeDismissBaseActivity() {
 
 
     internal var isGoingIncoming: Boolean? = null
@@ -39,12 +40,8 @@ class PopupActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_popup)
-//        recyclerView = findViewById<View>(R.id.recyclerPopup) as RecyclerView
-//        txtNote = findViewById<View>(R.id.txtPopupaddNote) as TextView
-//        txtReminder = findViewById<View>(R.id.txtPopupsetReminder) as TextView
-//        txtNoData = findViewById<View>(R.id.txtNoData) as TextView
-//        btnClose = findViewById<View>(R.id.btnPopupClose) as Button
-//        linearPopup = findViewById<View>(R.id.LinearPopup) as LinearLayout
+
+
         dbHandler = MyDBHandler(this)
         number = Pref.getValue(this, "PhoneNumber", null)
         number = number!!.replace(" ", "")
@@ -60,7 +57,7 @@ class PopupActivity : Activity() {
             strName = list[0].contactName
             strNumber = list[0].contactNumber
         } else {
-            //            //thinking
+
             strName = ""
             strNumber = number
         }
@@ -121,5 +118,17 @@ class PopupActivity : Activity() {
                 finish()
             }
         })
+
+        Handler().postDelayed(
+                {
+                    finish()
+                }, PopupActivity.SPLASH_TIME_OUT.toLong())
+
+    }
+
+    companion object {
+
+
+        private val SPLASH_TIME_OUT = 10000
     }
 }

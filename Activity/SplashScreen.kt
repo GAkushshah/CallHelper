@@ -27,7 +27,6 @@ class SplashScreen : AppCompatActivity() {
     private val TAG = "CallHelper"
     internal var showcase: String? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
