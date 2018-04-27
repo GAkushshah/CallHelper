@@ -8,11 +8,13 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.support.design.internal.BottomNavigationItemView
 import android.support.design.internal.BottomNavigationMenuView
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
@@ -38,13 +40,17 @@ class MainActivity : AppCompatActivity() {
     // internal var btnSetting: Button
     internal lateinit var toolbar: Toolbar
     internal lateinit var alarmManager: AlarmManager
+    var deviceId: String? = null
     var showcaseViewBuilder: ShowcaseViewBuilder? = null
+    private var mTelephonyManager: TelephonyManager? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        getDeviceId()
+        getImei()
         showcaseViewBuilder = ShowcaseViewBuilder.init(this)
 
         if ((Pref.getValue(this@MainActivity, "strShowcase", "").equals(""))) {
@@ -305,4 +311,22 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun getDeviceId() {
+        deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        Toast.makeText(this, deviceId+" <<<---ID", Toast.LENGTH_SHORT).show()
+        Log.d("Device_Id","Device_Id-->> "+deviceId)
+
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getImei(){
+        val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        // get IMEI
+        val imei = tm.deviceId
+        val phone = tm.line1Number
+
+        Log.d("Device_Id","imei-->> "+imei +"phone-->>"+ phone)
+
+    }
 }

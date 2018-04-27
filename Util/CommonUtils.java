@@ -166,7 +166,6 @@ public class CommonUtils {
         return date;
     }
 
-
     public static ProgressDialog mProgressDialog;
 
     public static void showProgress(Context context) {

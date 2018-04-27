@@ -1,45 +1,58 @@
 package com.greenapex.callhelper.Activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
-public class SwipeDismissBaseActivity extends AppCompatActivity {
+public class SwipeDismissBaseActivity extends Activity {
 
-    private static final int SWIPE_MIN_DISTANCE = 120;
-    private static final int SWIPE_MAX_OFF_PATH = 250;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
     private GestureDetector gestureDetector;
+    private static final int SWIPE_THRESHOLD = 100;
+    private static final int SWIPE_VELOCITY_THRESHOLD = 100;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         gestureDetector = new GestureDetector(new SwipeDetector());
     }
 
     private class SwipeDetector extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-
-            // Check movement along the Y-axis. If it exceeds SWIPE_MAX_OFF_PATH,
-            // then dismiss the swipe.
-            if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
-                return false;
-
-            // Swipe from left to right.
-            // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE)
-            // and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
-            if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                finish();
-                return true;
-            } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                finish();
-                return true;
+            boolean result = false;
+            try {
+                float diffY = e2.getY() - e1.getY();
+                float diffX = e2.getX() - e1.getX();
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffX > 0) {
+                            finish();
+                            Toast.makeText(SwipeDismissBaseActivity.this, "Swipe Right", Toast.LENGTH_SHORT).show();
+                        } else {
+                            finish();
+                            Toast.makeText(SwipeDismissBaseActivity.this, "Swipe Left", Toast.LENGTH_SHORT).show();
+                        }
+                        result = true;
+                    }
+                }
+//                else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+//                    if (diffY > 0) {
+//                        onSwipeBottom();
+//                    } else {
+//                        onSwipeTop();
+//                    }
+//                    result = true;
+//                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
-            return false;
+            return result;
         }
     }
 

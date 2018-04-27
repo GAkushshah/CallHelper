@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -41,12 +42,10 @@ class PopupActivity : SwipeDismissBaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_popup)
 
-
         dbHandler = MyDBHandler(this)
         number = Pref.getValue(this, "PhoneNumber", null)
         number = number!!.replace(" ", "")
         number = number!!.replace("+91", "")
-
 
         val list = dbHandler.noteReminder(number!!)
         isGoingIncoming = Pref.getValue(this, "isOnGoingIncoming", true)
@@ -57,7 +56,6 @@ class PopupActivity : SwipeDismissBaseActivity() {
             strName = list[0].contactName
             strNumber = list[0].contactNumber
         } else {
-
             strName = ""
             strNumber = number
         }
@@ -127,8 +125,6 @@ class PopupActivity : SwipeDismissBaseActivity() {
     }
 
     companion object {
-
-
         private val SPLASH_TIME_OUT = 10000
     }
 }
