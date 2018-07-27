@@ -33,10 +33,10 @@ public class SwipeDismissBaseActivity extends Activity {
                     if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                         if (diffX > 0) {
                             finish();
-                            Toast.makeText(SwipeDismissBaseActivity.this, "Swipe Right", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(SwipeDismissBaseActivity.this, "Swipe Right", Toast.LENGTH_SHORT).show();
                         } else {
                             finish();
-                            Toast.makeText(SwipeDismissBaseActivity.this, "Swipe Left", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(SwipeDismissBaseActivity.this, "Swipe Left", Toast.LENGTH_SHORT).show();
                         }
                         result = true;
                     }
